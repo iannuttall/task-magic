@@ -47,7 +47,7 @@ When working with the memory system, the agent should always verify that require
 
 ## Purpose and Usage
 
-The memory system serves as the project's historical record of development activity and planning managed by the AI task system.
+The memory system serves as the project's historical record of development activity and planning managed by the AI task system. When referencing other files (e.g., other tasks, plans, or related documents) within the notes or descriptive content of archived Markdown files, or in the descriptions within log files (`TASKS_LOG.md`, `PLANS_LOG.md`), prefer using wikilink syntax (e.g., `[[path/from/root/to/file]]` or `[[path/from/root/to/file|display text]]`) for clarity and potential future tool integration. For instance, a link to an archived plan might look like `[[memory/plans/old-feature-plan]]`.
 
 **When to Consult Memory:**
 

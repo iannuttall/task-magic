@@ -187,7 +187,7 @@ When creating a new task, the agent must assign a `priority` in the YAML frontma
 
 ## Details
 
-(Bulleted list of specific requirements, steps, or considerations)
+(Bulleted list of specific requirements, steps, or considerations. When referencing other tasks, plans, or relevant documents, prefer using wikilink syntax with paths from the project root, e.g., `[[plans/features/feature-x-plan]]` or `[[tasks/task42.1_do_something|Sub-task 42.1]]`.)
 
 ## Test Strategy
 
@@ -197,7 +197,7 @@ When creating a new task, the agent must assign a `priority` in the YAML frontma
 
 ## Agent Notes
 
-(Optional section for agents to add notes during execution)
+(Optional section for agents to add notes during execution. Wikilinks can be useful here for quick navigation to related files, e.g., `See [[memory/tasks/task10_previous_attempt]] for context.`)
 
 ## Task Granularity and Structure
 
