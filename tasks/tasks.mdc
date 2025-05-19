@@ -266,33 +266,29 @@ This file provides a quick, human-readable overview of all tasks currently in th
 
 ## Workflow
 
-The workflow for the Task Magic system is illustrated in a separate diagram. Please refer to [tasks/workflow.md](mdc:tasks/workflow.md) for the detailed process of task creation, execution, and archival.
-
-## Workflow
-
 ```mermaid
 graph TD
     A[User Request: Create Tasks from Plan/PRD] --> B{Plan All Tasks};
-    B --> C[Update TASKS.md (in project root) with ALL Planned Tasks];
+    B --> C["Update TASKS.md with ALL Planned Tasks"];
     C --> D{For Each Task in TASKS.md};
-    D -- Loop --> E[Create Individual task{id}_name.md in tasks/ (in project root)];
-    E --> F[Populate YAML and Markdown Body];
+    D -- Loop --> E["Create Individual task{id}_name.md in tasks/"];
+    E --> F["Populate YAML and Markdown Body"];
     F -- End Loop --> G[All Task Files Created];
     G --> H{User asks agent to work?};
-    H -- Yes --> I[Agent reads TASKS.md, finds first pending task '[ ]'];
+    H -- Yes --> I["Agent reads TASKS.md, finds first pending task (pending icon)"];
     I --> J{Check Dependencies for selected task};
-    J -- Met --> K[Update Task File YAML status: inprogress];
-    K --> L[Update TASKS.md entry: [-]];
+    J -- Met --> K["Update Task File YAML status: inprogress"];
+    K --> L["Update TASKS.md entry: [-]"];
     L --> M[Execute Task];
-    M -- Success --> N[Update YAML status: completed];
-    N --> O[Update TASKS.md entry: [x]];
-    M -- Failure --> P[Update YAML status: failed, add error_log];
-    P --> Q[Update TASKS.md entry: [!], (Failed)];
+    M -- Success --> N["Update YAML status: completed"];
+    N --> O["Update TASKS.md entry: [x]"];
+    M -- Failure --> P["Update YAML status: failed, add error_log"];
+    P --> Q["Update TASKS.md entry: [!], (Failed)"];
     J -- Not Met --> R[Inform User: Dependencies Missing];
-    S{User asks to archive?} --> T[Agent finds completed/failed tasks in tasks/ (project root)];
-    T --> U[Move task files to memory/tasks/ (project root)];
-    U --> V[Append summary to memory/TASKS_LOG.md (project root)];
-    V --> W[Remove corresponding entries from TASKS.md (project root)];
+    S{User asks to archive?} --> T["Agent finds completed/failed tasks in tasks/"];
+    T --> U["Move task files to memory/tasks/"];
+    U --> V["Append summary to memory/TASKS_LOG.md"];
+    V --> W["Remove corresponding entries from TASKS.md"];
 ```
 
 **Key Agent Responsibilities:**
