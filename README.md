@@ -2,7 +2,7 @@
 
 This system helps you manage your software projects by defining plans, breaking them down into actionable tasks, and keeping a memory of what's been done, all while working seamlessly with AI agents like Cursor and Windsurf.
 
-One of the key goals is to avoid the "AI loop of death." ☠️ 
+One of the key goals is to avoid the "AI loop of death." ☠️
 
 By breaking down work into smaller, focused tasks (each with a clear start, end, and test strategy), AI agents can tackle them effectively without losing context and making dumb mistakes.
 
@@ -50,19 +50,19 @@ There are three main parts to Task Magic:
 Task Magic is designed to work closely with AI agents. Here's how rules and context are handled:
 
 *   **Automatic context (`_index.md` files)**:
-    *   Files named `_index.md` (like the one in `.windsurf/rules/.task-magic/_index.md` or `.cursor/rules/.task-magic/_index.mdc`) provide a high-level overview of a system or a set of rules.
+    *   Files named `_index.md` (like the one in `tasks/_index.mdc`) provide a high-level overview of a system or a set of rules.
     *   These `_index.md` files are **automatically included in the AI's context** when you're working within a project that uses them. This gives the AI a foundational understanding without you needing to do anything extra.
 
 *   **On-demand rules (other `.md` or `.mdc` rule files)**:
-    *   Other rule files (e.g., `tasks.mdc`, `plans.mdc` located in `.cursor/rules/.task-magic/` or `.windsurf/rules/.task-magic/`) define specific behaviors or knowledge for the AI.
+    *   Other rule files (e.g., `tasks.mdc`, `plans.mdc` located in the `tasks/` directory) define specific behaviors or knowledge for the AI.
     *   Each of these rule files has a `description` in its header. The AI agent (Cursor/Windsurf) can read these descriptions and **decide dynamically whether a specific rule is relevant** to your current request or the task it's performing.
     *   If the AI deems a rule relevant, it will "fetch" and use that rule.
 
 *   **Your role: Guiding the AI with @-tags**:
     *   While the agent is usually pretty good at figuring out which rules to use, you can manually tag the rules you want to use.
     *   **For best results, @-tag specific rule files or directories in your prompts.** For example:
-        *   `@.cursor/rules/.task-magic/tasks.mdc create tasks for this feature`
-        *   `@.windsurf/rules/.task-magic/plans.md generate a plan for X`
+        *   `@tasks/tasks.mdc create tasks for this feature`
+        *   `@tasks/plans.mdc generate a plan for X`
         *   `@TASKS.md what is the status of my project?` (to refer to the main task checklist)
         *   `@.ai/plans/features/my-cool-feature-plan.md can you review this plan?`
     *   This helps ensure the AI looks at the exact information you want it to.
@@ -73,8 +73,8 @@ Task Magic is designed to work closely with AI agents. Here's how rules and cont
     *   `.ai/plans/PLAN.md` (start with a simple project title and overview)
     *   `.ai/TASKS.md` (can start with just `# Project Tasks`)
     *   `.ai/memory/TASKS_LOG.md` (can start with `# Task Archive Log`)
-2.  **Create a plan**: Ask your AI assistant to create a new feature plan using the planning rule (e.g., `@.cursor/rules/.task-magic/plans.mdc create a plan for user authentication`).
-3.  **Generate tasks**: Once a plan is ready, ask the AI to generate tasks from it (e.g., `@.cursor/rules/.task-magic/tasks.mdc generate tasks for the user-authentication-plan.md`).
+2.  **Create a plan**: Ask your AI assistant to create a new feature plan using the planning rule (e.g., `@tasks/plans.mdc create a plan for user authentication`).
+3.  **Generate tasks**: Once a plan is ready, ask the AI to generate tasks from it (e.g., `@tasks/tasks.mdc generate tasks for the user-authentication-plan.md`).
 4.  **Work on tasks**: Tell the AI to start working on tasks. It will update `.ai/TASKS.md` and the individual task files as it progresses.
 5.  **Archive**: Periodically, ask the AI to archive completed or failed tasks to keep your active task list clean.
 
@@ -86,12 +86,12 @@ I built this for myself to fit into my workflow. It might not work as well for y
 
 But since this is file based rules and we're all vibe coding in Cursor/Windsurf, you can easily customize it to fit your workflow.
 
-If something doesn't work for you, tag the rule(s) you want to change, explain what doesn't work (and what you think might) and **have the agent update them for you.** 
+If something doesn't work for you, tag the rule(s) you want to change, explain what doesn't work (and what you think might) and **have the agent update them for you.**
 
 For example:
 
 ```
-@plans.mdc I want my plans to be more concise and simple. Update the rule and make the PRD template shorter and to the point.
+@tasks/plans.mdc I want my plans to be more concise and simple. Update the rule and make the PRD template shorter and to the point.
 ```
 
 ## Contributing & feedback

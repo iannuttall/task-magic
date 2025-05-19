@@ -1,6 +1,7 @@
 ---
-trigger: model_decision
 description: This rule specifies the technical details for creating and processing tasks in the project's file-based AI task system
+globs:
+alwaysApply: false
 ---
 # AI Task Management System Rule
 
@@ -78,9 +79,9 @@ When creating a new top-level task, determine the next available sequential inte
 
 ### Sub-Task Naming, Structure, and Creation
 
-For tasks that are particularly large or complex, they can be expanded into sub-tasks. The [task-magic/expand.md](mdc:.cursor/rules/task-magic/expand.md) rule provides guidance on *when* and *how* to assess complexity and decide if a task *should be recommended* for expansion.
+For tasks that are particularly large or complex, they can be expanded into sub-tasks. The [tasks/expand.mdc](mdc:tasks/expand.mdc) rule provides guidance on *when* and *how* to assess complexity and decide if a task *should be recommended* for expansion.
 
-**If the `task-magic/expand.md` rule (or the user directly) recommends expanding a task, the following process is used to create the sub-tasks:**
+**If the `tasks/expand.mdc` rule (or the user directly) recommends expanding a task, the following process is used to create the sub-tasks:**
 
 1.  **Receive Sub-Task Definitions:** The agent receives a list of proposed sub-tasks, typically including titles, descriptions, priorities, and their inter-dependencies, as well as the ID of the parent task (e.g., parent task ID `42`).
 2.  **Sub-Task Filename Convention:**
@@ -266,7 +267,7 @@ This file provides a quick, human-readable overview of all tasks currently in th
 
 ## Workflow
 
-The workflow for the Task Magic system is illustrated in a separate diagram. Please refer to [task-magic/workflow.md](mdc:.cursor/rules/task-magic/workflow.md) for the detailed process of task creation, execution, and archival.
+The workflow for the Task Magic system is illustrated in a separate diagram. Please refer to [tasks/workflow.md](mdc:tasks/workflow.md) for the detailed process of task creation, execution, and archival.
 
 ## Workflow
 
@@ -335,7 +336,7 @@ The agent should interpret user requests and map them to the following actions. 
         *   First, plan all tasks to be created, determining their IDs, titles, priorities, dependencies, and descriptions.
         *   Update `.ai/TASKS.md` with entries for ALL planned tasks using `read_file` and `edit_file`.
         *   Then, for each task now listed in `.ai/TASKS.md`, create the individual `task{id}_descriptive_name.md` file in `.ai/tasks/` using `edit_file`, populating YAML and markdown body.
-    *   **If creating sub-tasks for an existing `parent_id` (based on a recommendation from `@expand.md` or user):**
+    *   **If creating sub-tasks for an existing `parent_id` (based on a recommendation from `@expand.mdc` or user):**
         *   Follow the same process: plan all sub-tasks, update `.ai/TASKS.md` with all sub-task entries, then create each `task{parent_id}.{sub_id}_descriptive_name.md` file in `.ai/tasks/`.
         *   Update the parent task file's description and details to list the new sub-tasks using `edit_file`.
         *   Update the parent task's entry in `TASKS.md` if its description needs to change, using `read_file` and `edit_file`.
