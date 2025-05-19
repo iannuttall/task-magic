@@ -17,26 +17,26 @@ Your task is to create a comprehensive product requirements document (PRD) for t
 
 ## Core Concepts
 
-1.  **Planning Folder:** The `.ai/plans/` directory holds all PRD files.
-2.  **Global Plan (`PLAN.MD`):** A single, mandatory `PLAN.MD` file must exist directly within `.ai/plans/`. Its primary role is to serve as a **concise high-level overview of the overall project and an index to detailed feature-specific PRDs**. It should define the project's vision and core goals but **must not become a lengthy PRD itself**. It provides essential context by linking to comprehensive feature plans.
-3.  **Feature Plans:** Specific features **must** have their detailed PRDs located within the `.ai/plans/features/` subdirectory (e.g., `features/{feature}-plan.md`). These documents contain the comprehensive planning, requirements, user stories, and technical considerations for individual features.
-4.  **Purpose:** PRDs serve as the detailed specification for specific features (`features/{feature}-plan.md`). The global `PLAN.MD` supports this by providing the overarching project summary and acting as a central hub that **links to these detailed feature PRDs**. Task breakdown (using the `ai-tasks` system) is based on the detailed content within feature plans.
-5.  **Plan Lifecycle:** Active plans reside in `.ai/plans/`. Completed, deprecated, or superseded plans can be archived to `.ai/memory/plans/` for historical reference, as detailed in the `task-magic/memory` rule.
+1.  **Planning Folder:** The `plans/` directory (in the main project root) holds all PRD files.
+2.  **Global Plan (`PLAN.MD`):** A single, mandatory `PLAN.MD` file must exist directly within `plans/` (in the main project root). Its primary role is to serve as a **concise high-level overview of the overall project and an index to detailed feature-specific PRDs**. It should define the project's vision and core goals but **must not become a lengthy PRD itself**. It provides essential context by linking to comprehensive feature plans.
+3.  **Feature Plans:** Specific features **must** have their detailed PRDs located within the `plans/features/` subdirectory (in the main project root, e.g., `main-repo/plans/features/{feature}-plan.md`). These documents contain the comprehensive planning, requirements, user stories, and technical considerations for individual features.
+4.  **Purpose:** PRDs serve as the detailed specification for specific features (`plans/features/{feature}-plan.md`). The global `PLAN.MD` (in `plans/`) supports this by providing the overarching project summary and acting as a central hub that **links to these detailed feature PRDs**. Task breakdown (using the `tasks.mdc` rule system) is based on the detailed content within feature plans.
+5.  **Plan Lifecycle:** Active plans reside in `plans/` (main project root). Completed, deprecated, or superseded plans can be archived to `memory/plans/` (main project root) for historical reference, as detailed in the `tasks/memory.mdc` rule.
 
 ## Directory Structure
 
 ```
-.ai/
+(main project root)/
   plans/          # Parent directory for all PRDs
     PLAN.md       # Mandatory: Global project PRD
     features/     # Directory for feature-specific PRDs
       {feature}-plan.md # Example feature PRD
-  tasks/          # (For reference - Tasks are generated based on PRDs)
-  memory/         # (For reference - Task archive)
-  TASKS.md        # (For reference - Master task checklist)
+  tasks/          # (For reference - Tasks are generated based on PRDs, in main project root/tasks/)
+  memory/         # (For reference - Task and Plan archive, in main project root/memory/)
+  TASKS.md        # (For reference - Master task checklist, in main project root/TASKS.md)
 ```
 
-**Note:** Before creating directories like `.ai/plans/` or `.ai/plans/features/`, the agent should first check if they exist using `list_dir` on the parent directory or `file_search` for the specific directory path. If a directory does not exist, it can be implicitly created when using `edit_file` to place a file within that path, as `edit_file` will create necessary parent directories. The agent should also ensure `PLAN.md` exists (checking with `file_search` and creating with `edit_file` if necessary with a basic structure) before generating feature plans.
+**Note:** Before creating directories like `plans/` or `plans/features/` (in the main project root), the agent should first check if they exist using `list_dir` on the parent directory (project root for `plans/`, or `plans/` for `plans/features/`) or `file_search` for the specific directory path. If a directory does not exist, it can be implicitly created when using `edit_file` to place a file within that path, as `edit_file` will create necessary parent directories. The agent should also ensure `plans/PLAN.md` exists (checking with `file_search` and creating with `edit_file` if necessary with a basic structure) before generating feature plans.
 
 ## PRD File Format
 
@@ -201,10 +201,10 @@ Agents should generate PRDs following this structure, filling in details based o
 
 ## Agent Responsibilities
 
-1.  **Ensure Global Plan Exists:** Before creating feature plans, verify `.ai/plans/PLAN.MD` exists. If not, inform the user and offer to create a basic structure for it, emphasizing its role as a **concise project summary and an index to detailed feature plans**, not a comprehensive PRD itself.
-2.  **Determine Scope:** Clarify if the request is to update the global `PLAN.MD` (which should generally involve refining the overall project vision, updating core goals, or adding/modifying links to feature PRDs) or to create/update a **detailed feature-specific plan** in `.ai/plans/features/{feature}-plan.md`. Avoid adding extensive feature details directly into `PLAN.MD`.
-3.  **Filename:** Use the correct filename convention. Create directories if they don't exist.
+1.  **Ensure Global Plan Exists:** Before creating feature plans, verify `plans/PLAN.MD` (in main project root) exists. If not, inform the user and offer to create a basic structure for it, emphasizing its role as a **concise project summary and an index to detailed feature plans**, not a comprehensive PRD itself.
+2.  **Determine Scope:** Clarify if the request is to update the global `PLAN.MD` (which should generally involve refining the overall project vision, updating core goals, or adding/modifying links to feature PRDs) or to create/update a **detailed feature-specific plan** in `plans/features/{feature}-plan.md` (in main project root). Avoid adding extensive feature details directly into `PLAN.MD`.
+3.  **Filename:** Use the correct filename convention. Create directories (relative to main project root) if they don't exist.
 4.  **Use Template:** Generate the PRD content strictly following the Markdown template structure provided above.
-5.  **Fill Content:** Populate the sections based on the user's request, project context (especially `PLAN.md`), and best practices for PRD writing.
+5.  **Fill Content:** Populate the sections based on the user's request, project context (especially `plans/PLAN.md`), and best practices for PRD writing.
 6.  **Completeness:** Ensure all necessary user stories (primary, alternative, edge cases, security) are included with clear acceptance criteria.
-7.  **Focus:** The agent's role is *only* to generate or update PRD Markdown files in the active planning directory (`.ai/plans/`). This means creating/editing the high-level `PLAN.MD` or detailed `features/{feature}-plan.md` files. Task creation is a separate process handled by interpreting the detailed feature PRDs using the `ai-tasks` rule. Archiving plans is handled by the `task-magic/memory` rule.
+7.  **Focus:** The agent's role is *only* to generate or update PRD Markdown files in the active planning directory (`plans/` in the main project root). This means creating/editing the high-level `PLAN.MD` or detailed `plans/features/{feature}-plan.md` files. Task creation is a separate process handled by interpreting the detailed feature PRDs using the `tasks/tasks.mdc` rule. Archiving plans is handled by the `tasks/memory.mdc` rule.
