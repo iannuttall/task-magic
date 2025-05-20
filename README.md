@@ -26,7 +26,7 @@ There are three main parts to Task Magic:
     *   **Purpose**: This is where you define the "what" and "why" of your project or specific features. Think of these as your Product Requirements Documents (PRDs). These files are expected at the root of your main project (e.g., `main-repo/plans/`).
     *   **Key files**:
         *   `plans/PLAN.md`: A global overview of your entire project. It should be a concise summary and index, linking to more detailed feature plans.
-        *   `plans/features/{your-feature}-plan.md`: Detailed PRDs for each specific feature you're building. This is where the AI will look for specifics when generating tasks.
+        *   `plans/{your-feature}-plan.md`: Detailed PRDs for each specific feature you're building. This is where the AI will look for specifics when generating tasks.
     *   **AI interaction**: AI agents use these plans to understand the scope and requirements, helping to generate tasks.
 
 2.  **Tasks (`tasks/` & `TASKS.md`)**:
@@ -64,7 +64,7 @@ Task Magic (these rules and associated scripts, typically located in `your-main-
         *   `@tasks/tasks.mdc create tasks for this feature` (refers to a rule file within `your-main-repo/.cursor/tasks/tasks/tasks.mdc`)
         *   `@tasks/plans.mdc generate a plan for X` (refers to `your-main-repo/.cursor/tasks/tasks/plans.mdc`)
         *   `@TASKS.md what is the status of my project?` (refers to `your-main-repo/TASKS.md`)
-        *   `@plans/features/my-cool-feature-plan.md can you review this plan?` (refers to `your-main-repo/plans/features/my-cool-feature-plan.md`)
+        *   `@plans/my-cool-feature-plan.md can you review this plan?` (refers to `your-main-repo/plans/my-cool-feature-plan.md`)
     *   This helps ensure the AI looks at the exact information you want it to.
 
 ## Getting started
@@ -77,7 +77,7 @@ Task Magic (these rules and associated scripts, typically located in `your-main-
         *   `TASKS.md` file in the project root (can start with just `# Project Tasks`).
         *   `memory/` directory, with `memory/TASKS_LOG.md` and `memory/PLANS_LOG.md` files (can start with `# Task Archive Log` and `# Plan Archive Log` respectively).
         *   `memory/tasks/` and `memory/plans/` subdirectories.
-2.  **Create a plan**: Ask your AI assistant to create a new feature plan using the planning rule (e.g., `@tasks/plans.mdc create a plan for user authentication`). The plan will be saved in `your-main-repo/plans/features/`.
+2.  **Create a plan**: Ask your AI assistant to create a new feature plan using the planning rule (e.g., `@tasks/plans.mdc create a plan for user authentication`). The plan will be saved in `your-main-repo/plans/`.
 3.  **Generate tasks**: Once a plan is ready, ask the AI to generate tasks from it (e.g., `@tasks/tasks.mdc generate tasks for the user-authentication-plan.md`). Tasks will be created in `your-main-repo/tasks/` and listed in `your-main-repo/TASKS.md`.
 4.  **Work on tasks**: Tell the AI to start working on tasks. It will update `TASKS.md` and the individual task files in the `tasks/` directory as it progresses.
 5.  **Archive**: Periodically, ask the AI to archive completed or failed tasks to keep your active task list clean. These will be moved to `memory/tasks/` and `memory/plans/`.
