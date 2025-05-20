@@ -13,7 +13,7 @@ The Task Magic system is a file-based project management and AI agent operationa
 
 1.  **Plans (`@plans.mdc`)**:
     *   **Purpose**: Defines how Product Requirements Documents (PRDs) are created and structured for the overall project and specific features.
-    *   **Location**: PRDs are stored in `plans/` (in the main project root), with feature-specific plans in `plans/features/`.
+    *   **Location**: PRDs are stored in `plans/` (in the main project root).
     *   **Key File**: A global `PLAN.md` is mandatory in `plans/`.
     *   **Details**: For plan creation, fully review [tasks/plans.mdc](mdc:tasks/plans.mdc)
 
