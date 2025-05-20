@@ -54,15 +54,15 @@ Task Magic (these rules and associated scripts, typically located in `your-main-
     *   These `_index.md` files are **automatically included in the AI's context** when you're working within a project that uses them. This gives the AI a foundational understanding without you needing to do anything extra.
 
 *   **On-demand rules (other `.md` or `.mdc` rule files)**:
-    *   Other rule files (e.g., `tasks.mdc`, `plans.mdc`) are located within this `task-magic` system directory (e.g., `your-main-repo/.cursor/tasks/tasks/`).
+    *   Other rule files (e.g., `tasks.mdc`, `plans.mdc`) are located within this `task-magic` system directory (e.g., `your-main-repo/.cursor/rules/tasks/`).
     *   Each of these rule files has a `description` in its header. The AI agent (Cursor/Windsurf) can read these descriptions and **decide dynamically whether a specific rule is relevant** to your current request or the task it's performing.
     *   If the AI deems a rule relevant, it will "fetch" and use that rule.
 
 *   **Your role: Guiding the AI with @-tags**:
     *   While the agent is usually pretty good at figuring out which rules to use, you can manually tag the rules you want to use.
     *   **For best results, @-tag specific rule files or directories in your prompts.** For example:
-        *   `@tasks/tasks.mdc create tasks for this feature` (refers to a rule file within `your-main-repo/.cursor/tasks/tasks/tasks.mdc`)
-        *   `@tasks/plans.mdc generate a plan for X` (refers to `your-main-repo/.cursor/tasks/tasks/plans.mdc`)
+        *   `@rules/tasks.mdc create tasks for this feature` (refers to a rule file within `your-main-repo/.cursor/rules/tasks/tasks.mdc`)
+        *   `@tasks/plans.mdc generate a plan for X` (refers to `your-main-repo/.cursor/rules/tasks/plans.mdc`)
         *   `@TASKS.md what is the status of my project?` (refers to `your-main-repo/TASKS.md`)
         *   `@plans/my-cool-feature-plan.md can you review this plan?` (refers to `your-main-repo/plans/my-cool-feature-plan.md`)
     *   This helps ensure the AI looks at the exact information you want it to.
@@ -78,7 +78,7 @@ Task Magic (these rules and associated scripts, typically located in `your-main-
         *   `memory/` directory, with `memory/TASKS_LOG.md` and `memory/PLANS_LOG.md` files (can start with `# Task Archive Log` and `# Plan Archive Log` respectively).
         *   `memory/tasks/` and `memory/plans/` subdirectories.
 2.  **Create a plan**: Ask your AI assistant to create a new feature plan using the planning rule (e.g., `@tasks/plans.mdc create a plan for user authentication`). The plan will be saved in `your-main-repo/plans/`.
-3.  **Generate tasks**: Once a plan is ready, ask the AI to generate tasks from it (e.g., `@tasks/tasks.mdc generate tasks for the user-authentication-plan.md`). Tasks will be created in `your-main-repo/tasks/` and listed in `your-main-repo/TASKS.md`.
+3.  **Generate tasks**: Once a plan is ready, ask the AI to generate tasks from it (e.g., `@rules/tasks.mdc generate tasks for the user-authentication-plan.md`). Tasks will be created in `your-main-repo/tasks/` and listed in `your-main-repo/TASKS.md`.
 4.  **Work on tasks**: Tell the AI to start working on tasks. It will update `TASKS.md` and the individual task files in the `tasks/` directory as it progresses.
 5.  **Archive**: Periodically, ask the AI to archive completed or failed tasks to keep your active task list clean. These will be moved to `memory/tasks/` and `memory/plans/`.
 
