@@ -25,6 +25,7 @@ To generate the status update, the agent will use:
 ## 2. Output Format (Slack/Teams Markdown)
 
 The status update should strictly follow this format. Omit any section (including the heading) if there is no relevant content for it.
+The agent will generate a filename using a UTC timestamp (e.g., `YYYY-MM-DDTHH-MM-SSZ_status_update.md`) and save the content below into `memory/status-updates/{timestamp}_status_update.md` (relative to the project root). The `edit_file` tool will create the `memory/status-updates/` directory if it doesn't exist.
 
 ```markdown
 *Highlights* (from {specified plan file, e.g., plans/your-plan.md})
@@ -73,7 +74,7 @@ The status update should strictly follow this format. Omit any section (includin
     *   A maximum of 3 bullet points per section.
     *   If a section has no relevant items, omit the entire section including its heading.
 
-5.  **No Questions/Explanation:** The agent should output **only the formatted status update**. Do not ask clarifying questions or explain the process.
+5.  **File Output:** The agent should construct the status update string and then save it to the specified file. It should then confirm the file has been saved. Do not ask clarifying questions or explain the process beyond confirming the save location.
 
 6.  **Language:** Use the primary language of the source documents.
 
@@ -84,7 +85,10 @@ The status update should strictly follow this format. Omit any section (includin
 3.  Agent silently reads `TASKS.MD` (project root).
 4.  Agent silently reads `memory/TASKS_LOG.MD` (project root).
 5.  Agent *may* silently read specific task files from `tasks/` or `memory/tasks/` (project root) if details are needed.
-6.  Agent constructs the status update string according to the format and guidelines.
-7.  Agent outputs the formatted string.
+6.  Agent generates a UTC timestamp by running the command `date -u +"%Y-%m-%dT%H:%M:%SZ"`. The agent will parse the timestamp from the first line of the command's output.
+7.  Agent formats the timestamp for the filename by replacing colon characters (`:`) with hyphens (`-`) (e.g., `YYYY-MM-DDTHH-MM-SSZ`).
+8.  Agent constructs the status update string according to the format and guidelines.
+9.  Agent saves the status update string to `memory/status-updates/{formatted_timestamp}_status_update.md` (relative to project root) using the `edit_file` tool.
+10. Agent confirms to the user that the status update has been saved to the specified file path.
 
-This rule helps ensure consistent and brief project updates focused on a specific feature plan, including historical completions, based on the Task Magic system's current state.
+This rule helps ensure consistent and brief project updates focused on a specific feature plan, including historical completions, based on the Task Magic system's current state, and archives them for future reference.
