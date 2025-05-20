@@ -1,0 +1,90 @@
+---
+description:
+globs:
+alwaysApply: false
+---
+# Status Update Generation Rule
+
+Whenever you use this rule, start your message with the following:
+
+"Generating project status update for a specific plan (including memory)..."
+
+This rule guides an AI agent in creating a concise status update suitable for Slack/Teams by analyzing a specific project feature plan (located in `project-root/plans/`), current task statuses, and archived tasks, following the Task Magic system.
+
+You are a helpful assistant that writes short status updates. Do not ask any questions.
+
+## 1. Information Sources
+
+To generate the status update, the agent will use:
+
+1.  **Specific Feature Plan (User-provided path, e.g., `plans/your-feature-plan.md` in the project root):** For high-level feature goals and potential highlights. The user MUST specify which plan to use (e.g., `plans/your-feature-plan.md`) when invoking the rule.
+2.  **Master Task Checklist (`TASKS.MD` in the project root):** For the current status of active tasks (pending, inprogress, completed, failed).
+3.  **Task Archive Log (`memory/TASKS_LOG.MD` in the project root):** For information on tasks that have been completed and archived.
+4.  **Individual Task Files (`tasks/task{id}_name.md` or `memory/tasks/task{id}_name.md` in the project root):** If necessary, to fetch precise task titles or details for clarity, especially for failed tasks or to confirm details of archived tasks.
+
+## 2. Output Format (Slack/Teams Markdown)
+
+The status update should strictly follow this format. Omit any section (including the heading) if there is no relevant content for it.
+
+```markdown
+*Highlights* (from {specified plan file, e.g., plans/your-plan.md})
+- {Concise highlight 1, ~10 words}
+- {Concise highlight 2, ~10 words}
+- {Concise highlight 3, ~10 words}
+
+*Completed* (related to {specified plan file, e.g., plans/your-plan.md}, including archived)
+- {Completed task 1 title, ~10 words}
+- {Completed task 2 title, ~10 words}
+- {Completed task 3 title, ~10 words}
+
+*Next Steps* (related to {specified plan file, e.g., plans/your-plan.md})
+- {Next step task 1 title, ~10 words}
+- {Next step task 2 title, ~10 words}
+- {Next step task 3 title, ~10 words}
+
+*Risks / Blockers* (related to {specified plan file, e.g., plans/your-plan.md})
+- {Risk/Blocker 1 from failed task, ~10 words}
+- {Risk/Blocker 2 from failed task, ~10 words}
+- {Risk/Blocker 3 from failed task, ~10 words}
+```
+
+## 3. Content Generation Guidelines
+
+1.  **Agent is provided with a path to a specific feature plan file by the user (e.g., `plans/your-feature-plan.md` located in the project root).**
+    *   The agent reads this specified feature plan file.
+    *   Identify 1-3 key objectives, recent progress described within, or upcoming critical milestones from *this specific plan* to serve as "Highlights." These should be very concise. Include the plan filename (e.g., `plans/your-plan.md`) in the "Highlights" heading.
+
+2.  **Gathering Completed Tasks:**
+    *   The agent should try to determine a feature name or key identifiers from the specified plan file (e.g., from its title or filename like `user-authentication-plan.md` implies feature "user-authentication").
+    *   **From `TASKS.MD` (project root):** Identify tasks marked with `[x]` (completed). Filter these for relevance to the specified feature plan.
+    *   **From `memory/TASKS_LOG.MD` (project root):** Read and parse the log. Identify tasks archived with `Status: completed`. Filter these for relevance to the specified feature plan by checking the task title and description in the log against the plan's feature name/keywords.
+    *   Combine the lists of completed tasks from `TASKS.MD` and `TASKS_LOG.MD`. Select up to 3 of the most significant or recent ones for the "*Completed*" section. Use the task title.
+    *   Update the "*Completed*" heading to indicate it includes archived tasks and reference the plan file (e.g., `plans/your-plan.md`).
+
+3.  **Agent reads `TASKS.MD` (project root) for other statuses:**
+    *   **Next Steps:** Identify tasks marked with `[ ]` (pending) or `[-]` (in progress). Filter and prioritize critical/high priority tasks related to the specified feature plan. List up to 3. Use the task title from `TASKS.MD`.
+    *   **Risks / Blockers:** Identify tasks marked with `[!]` (failed). Filter for those related to the specified feature plan.
+        *   For each relevant failed task, the agent *may* need to briefly consult the corresponding `tasks/task{id}_name.md` file (project root) to understand the `error_log` or description to summarize the risk/blocker.
+        *   List up to 3.
+    *   Include a mention of the specified plan file (e.g., `plans/your-plan.md`) in the headings for "Next Steps" and "Risks / Blockers".
+
+4.  **Conciseness:**
+    *   Each bullet point should be approximately 10 words or less.
+    *   A maximum of 3 bullet points per section.
+    *   If a section has no relevant items, omit the entire section including its heading.
+
+5.  **No Questions/Explanation:** The agent should output **only the formatted status update**. Do not ask clarifying questions or explain the process.
+
+6.  **Language:** Use the primary language of the source documents.
+
+## 4. Agent Workflow Example
+
+1.  User invokes this rule, specifying a plan file, e.g., `@status-update.mdc generate a status update for plans/my-feature-plan.md` (path relative to project root).
+2.  Agent silently reads the specified plan file (e.g., `project-root/plans/my-feature-plan.md`).
+3.  Agent silently reads `TASKS.MD` (project root).
+4.  Agent silently reads `memory/TASKS_LOG.MD` (project root).
+5.  Agent *may* silently read specific task files from `tasks/` or `memory/tasks/` (project root) if details are needed.
+6.  Agent constructs the status update string according to the format and guidelines.
+7.  Agent outputs the formatted string.
+
+This rule helps ensure consistent and brief project updates focused on a specific feature plan, including historical completions, based on the Task Magic system's current state.
