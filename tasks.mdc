@@ -124,7 +124,7 @@ id: 42.1 # Full sub-task ID
 title: 'Implement User Model'
 status: pending
 priority: high
-feature: 'User Feature - Models' # Or reference parent task
+plan: "[[user-authentication-plan]]" # Wikilink to the plan this task is part of (without path or extension)
 dependencies:
   - 42 # Example: if parent task had some initial setup phase
 # ... rest of YAML ...
@@ -144,7 +144,7 @@ id: {id}                   # Unique Task ID. Numeric for top-level tasks (e.g., 
 title: 'Example Task Title'  # Human-readable title
 status: pending            # Current status: pending, inprogress, completed, failed
 priority: medium           # Task priority: critical, high, medium, low
-feature: Example Feature   # Feature area or logical grouping
+plan: "[[example-feature-plan]]"  # Wikilink to the plan this task is part of (without path or extension)
 dependencies:              # List of task IDs (numeric or string like "42.1") this task depends on
   - 3
   - 5.2
