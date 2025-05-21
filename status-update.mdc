@@ -29,7 +29,7 @@ The agent will generate a filename using a formatted UTC timestamp (e.g., `YYYY-
 
 ```markdown
 ---
-plan: [[document-name-without-path-or-extension]]
+plan: "[[document-name-without-path-or-extension]]"
 date: YYYY-MM-DD
 ---
 
