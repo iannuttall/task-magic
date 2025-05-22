@@ -1,6 +1,6 @@
 ---
-description:
-globs:
+description: 
+globs: 
 alwaysApply: true
 ---
 # Task Magic System Overview
@@ -13,20 +13,20 @@ The Task Magic system is a file-based project management and AI agent operationa
 
 1.  **Plans (`@plans.mdc`)**:
     *   **Purpose**: Defines how Product Requirements Documents (PRDs) are created and structured for the overall project and specific features.
-    *   **Location**: PRDs are stored in `plans/` (in the main project root).
-    *   **Key File**: A global `PLAN.md` is mandatory in `plans/`.
+    *   **Location**: PRDs are stored in `{project-name}-notes/plans/` (in the main project root).
+    *   **Key File**: A global `PLAN.md` is mandatory in `{project-name}-notes/plans/`.
     *   **Details**: For plan creation, fully review [tasks/plans.mdc](mdc:tasks/plans.mdc)
 
 2.  **Tasks (`@tasks.mdc`)**:
     *   **Purpose**: Governs the creation, management, and lifecycle of individual development tasks.
-    *   **Active Tasks**: All active tasks reside in `tasks/` (in the main project root) as `task{id}_name.md` files.
-    *   **Master View**: A master checklist, `TASKS.md` (in the main project root), mirrors the status of tasks in the `tasks/` directory and must be kept synchronized.
+    *   **Active Tasks**: All active tasks reside in `{project-name}-notes/tasks/` (in the main project root) as `task{id}_name.md` files.
+    *   **Master View**: A master checklist, `{project-name}-notes/TASKS.md` (in the main project root), mirrors the status of tasks in the `{project-name}-notes/tasks/` directory and must be kept synchronized.
     *   **Details**: For task creation, fully review [tasks/tasks.mdc](mdc:tasks/tasks.mdc)
 
 3.  **Memory (`@memory.mdc`)**:
     *   **Purpose**: Archives completed and failed tasks to provide historical context.
-    *   **Location**: Archived task files are stored in `memory/tasks/` (in the main project root).
-    *   **Log File**: A chronological log of archived tasks is maintained in `memory/TASKS_LOG.md` (in the main project root).
+    *   **Location**: Archived task files are stored in `{project-name}-notes/memory/tasks/` (in the main project root).
+    *   **Log File**: A chronological log of archived tasks is maintained in `{project-name}-notes/memory/TASKS_LOG.md` (in the main project root).
     *   **Details**: For storing to memory, full review [tasks/memory.mdc](mdc:tasks/memory.mdc)
 
 This interconnected system allows for structured project development, from high-level planning to task execution and historical review, primarily managed through Markdown files and defined agent responsibilities.
