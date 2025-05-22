@@ -24,7 +24,7 @@ Do *not* wrap it in JSON; emit plain markdown ready to overwrite the file.
 
 	* Always include a metadata line at the top: `<!-- Last updated: YYYY-MM-DD -->`
 	* Use this date to find tasks completed since the last update
-	* Automatically discover achievements from `memory/tasks/` completed after this date
+	* Automatically discover achievements from `{project-name}-notes/memory/tasks/` completed after this date
 
 2. **Weekly section**
 
@@ -104,8 +104,8 @@ Do *not* wrap it in JSON; emit plain markdown ready to overwrite the file.
 
 1. **Automatic achievement discovery**
 	* Extract last update date from `<!-- Last updated: YYYY-MM-DD -->` comment in CAREER_README.md
-	* Find all tasks in `memory/tasks/` completed since that date
-	* **CRITICAL**: For each task, locate and read associated plans in `plans/` or `memory/plans/` to understand full context
+	* Find all tasks in `{project-name}-notes/memory/tasks/` completed since that date
+	* **CRITICAL**: For each task, locate and read associated plans in `{project-name}-notes/plans/` or `{project-name}-notes/memory/plans/` to understand full context
 	* Extract achievements from high-impact completed tasks with full strategic understanding
 	* Focus on tasks with priority `high` or `critical`
 
@@ -116,13 +116,13 @@ Do *not* wrap it in JSON; emit plain markdown ready to overwrite the file.
 
 3. **File locations**
 	* Input: Last update date embedded in `CAREER_README.md`
-	* Source: Completed tasks in `memory/tasks/` since embedded date
+	* Source: Completed tasks in `{project-name}-notes/memory/tasks/` since embedded date
 	* Output: Updated `CAREER_README.md` with new embedded date
-	* Archive: Weekly snapshots in `memory/career-readme/`
+	* Archive: Weekly snapshots in `{project-name}-notes/memory/career-readme/`
 
 4. **Process flow**
 	* AI reads current CAREER_README.md and extracts last update date
-	* AI searches `memory/tasks/` for completions since that date
-	* AI reads associated plans from `plans/` or `memory/plans/` for context
+	* AI searches `{project-name}-notes/memory/tasks/` for completions since that date
+	* AI reads associated plans from `{project-name}-notes/plans/` or `{project-name}-notes/memory/plans/` for context
 	* AI extracts achievements with full strategic understanding and updates README with new date
 	* User reviews and saves the generated content
