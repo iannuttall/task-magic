@@ -17,25 +17,27 @@ Your task is to create a comprehensive product requirements document (PRD) for t
 
 ## Core Concepts
 
-1.  **Planning Folder:** The `plans/` directory (in the main project root) holds all PRD files.
-2.  **Global Plan (`PLAN.MD`):** A single, mandatory `PLAN.MD` file must exist directly within `plans/` (in the main project root). Its primary role is to serve as a **concise high-level overview of the overall project and an index to detailed feature-specific PRDs**. It should define the project's vision and core goals but **must not become a lengthy PRD itself**. It provides essential context by linking to comprehensive feature plans, preferably using wikilinks (e.g., `[[plans/user-authentication-plan]]`).
-3.  **Feature Plans:** Specific features **must** have their detailed PRDs located within the `plans/` directory (in the main project root, e.g., `main-repo/plans/{feature}-plan.md`). These documents contain the comprehensive planning, requirements, user stories, and technical considerations for individual features. When referencing other plans, tasks, or relevant documents within the content of a feature plan, use wikilink syntax with paths from the project root (e.g., `[[tasks/task1_setup_database]]` or `[[memory/tasks/task5_old_approach|Old Approach Documentation]]`).
-4.  **Purpose:** PRDs serve as the detailed specification for specific features (`plans/{feature}-plan.md`). The global `PLAN.MD` (in `plans/`) supports this by providing the overarching project summary and acting as a central hub that **links to these detailed feature PRDs**. Task breakdown (using the `tasks.mdc` rule system) is based on the detailed content within feature plans.
-5.  **Plan Lifecycle:** Active plans reside in `plans/` (main project root). Completed, deprecated, or superseded plans can be archived to `memory/plans/` (main project root) for historical reference, as detailed in the `tasks/memory.mdc` rule.
+1.  **Planning Folder:** The `{project-name}-notes/plans/` directory (in the main project root) holds all PRD files.
+2.  **Global Plan (`PLAN.MD`):** A single, mandatory `PLAN.MD` file must exist directly within `{project-name}-notes/plans/` (in the main project root). Its primary role is to serve as a **concise high-level overview of the overall project and an index to detailed feature-specific PRDs**. It should define the project's vision and core goals but **must not become a lengthy PRD itself**. It provides essential context by linking to comprehensive feature plans, preferably using wikilinks (e.g., `[[plans/user-authentication-plan]]`).
+3.  **Feature Plans:** Specific features **must** have their detailed PRDs located within the `{project-name}-notes/plans/` directory (in the main project root, e.g., `main-repo/{project-name}-notes/plans/{feature}-plan.md`). These documents contain the comprehensive planning, requirements, user stories, and technical considerations for individual features. When referencing other plans, tasks, or relevant documents within the content of a feature plan, use wikilink syntax with paths from the project root (e.g., `[[tasks/task1_setup_database]]` or `[[memory/tasks/task5_old_approach|Old Approach Documentation]]`).
+4.  **Purpose:** PRDs serve as the detailed specification for specific features (`{project-name}-notes/plans/{feature}-plan.md`). The global `PLAN.MD` (in `{project-name}-notes/plans/`) supports this by providing the overarching project summary and acting as a central hub that **links to these detailed feature PRDs**. Task breakdown (using the `tasks.mdc` rule system) is based on the detailed content within feature plans.
+5.  **Plan Lifecycle:** Active plans reside in `{project-name}-notes/plans/` (main project root). Completed, deprecated, or superseded plans can be archived to `{project-name}-notes/memory/plans/` (main project root) for historical reference, as detailed in the `tasks/memory.mdc` rule.
 
 ## Directory Structure
 
 ```
 (main project root)/
-  plans/          # Parent directory for all PRDs
-    PLAN.md       # Mandatory: Global project PRD
-    {feature}-plan.md # Example feature PRD
-  tasks/          # (For reference - Tasks are generated based on PRDs, in main project root/tasks/)
-  memory/         # (For reference - Task and Plan archive, in main project root/memory/)
-  TASKS.md        # (For reference - Master task checklist, in main project root/TASKS.md)
+  workspace/ (codebase)
+  {project-name}-notes/
+    plans/          # Parent directory for all PRDs
+      PLAN.md       # Mandatory: Global project PRD
+      {feature}-plan.md # Example feature PRD
+    tasks/          # (For reference - Tasks are generated based on PRDs, in main project root/{project-name}-notes/tasks/)
+    memory/         # (For reference - Task and Plan archive, in main project root/{project-name}-notes/memory/)
+    TASKS.md        # (For reference - Master task checklist, in main project root/{project-name}-notes/TASKS.md)
 ```
 
-**Note:** Before creating directories like `plans/` (in the main project root), the agent should first check if they exist using `list_dir` on the parent directory (project root for `plans/`) or `file_search` for the specific directory path. If a directory does not exist, it can be implicitly created when using `edit_file` to place a file within that path, as `edit_file` will create necessary parent directories. The agent should also ensure `plans/PLAN.md` exists (checking with `file_search` and creating with `edit_file` if necessary with a basic structure) before generating feature plans.
+**Note:** Before creating directories like `{project-name}-notes/plans/` (in the main project root), the agent should first check if they exist using `list_dir` on the parent directory (`{project-name}-notes/` for `plans/`) or `file_search` for the specific directory path. If a directory does not exist, it can be implicitly created when using `edit_file` to place a file within that path, as `edit_file` will create necessary parent directories. The agent should also ensure `{project-name}-notes/plans/PLAN.md` exists (checking with `file_search` and creating with `edit_file` if necessary with a basic structure) before generating feature plans.
 
 ## PRD File Format
 
@@ -200,10 +202,10 @@ Agents should generate PRDs following this structure, filling in details based o
 
 ## Agent Responsibilities
 
-1.  **Ensure Global Plan Exists:** Before creating feature plans, verify `plans/PLAN.MD` (in main project root) exists. If not, inform the user and offer to create a basic structure for it, emphasizing its role as a **concise project summary and an index to detailed feature plans** (linked via wikilinks, e.g., `[[plans/some-feature-plan]]`), not a comprehensive PRD itself.
-2.  **Determine Scope:** Clarify if the request is to update the global `PLAN.MD` (which should generally involve refining the overall project vision, updating core goals, or adding/modifying wikilinks like `[[plans/another-feature-plan]]` to feature PRDs) or to create/update a **detailed feature-specific plan** in `plans/{feature}-plan.md` (in main project root). Avoid adding extensive feature details directly into `PLAN.MD`.
-3.  **Filename:** Use the correct filename convention. Create directories (relative to main project root) if they don't exist.
+1.  **Ensure Global Plan Exists:** Before creating feature plans, verify `{project-name}-notes/plans/PLAN.MD` (in main project root) exists. If not, inform the user and offer to create a basic structure for it, emphasizing its role as a **concise project summary and an index to detailed feature plans** (linked via wikilinks, e.g., `[[plans/some-feature-plan]]`), not a comprehensive PRD itself.
+2.  **Determine Scope:** Clarify if the request is to update the global `PLAN.MD` (which should generally involve refining the overall project vision, updating core goals, or adding/modifying wikilinks like `[[plans/another-feature-plan]]` to feature PRDs) or to create/update a **detailed feature-specific plan** in `{project-name}-notes/plans/{feature}-plan.md` (in main project root). Avoid adding extensive feature details directly into `PLAN.MD`.
+3.  **Filename:** Use the correct filename convention. Create directories (relative to main project root, inside `{project-name}-notes/`) if they don't exist.
 4.  **Use Template:** Generate the PRD content strictly following the Markdown template structure provided above.
-5.  **Fill Content:** Populate the sections based on the user's request, project context (especially `plans/PLAN.md`), and best practices for PRD writing.
+5.  **Fill Content:** Populate the sections based on the user's request, project context (especially `{project-name}-notes/plans/PLAN.md`), and best practices for PRD writing.
 6.  **Completeness:** Ensure all necessary user stories (primary, alternative, edge cases, security) are included with clear acceptance criteria.
-7.  **Focus:** The agent's role is *only* to generate or update PRD Markdown files in the active planning directory (`plans/` in the main project root). This means creating/editing the high-level `PLAN.MD` or detailed `plans/{feature}-plan.md` files. Task creation is a separate process handled by interpreting the detailed feature PRDs using the `tasks/tasks.mdc` rule. Archiving plans is handled by the `tasks/memory.mdc` rule.
+7.  **Focus:** The agent's role is *only* to generate or update PRD Markdown files in the active planning directory (`{project-name}-notes/plans/` in the main project root). This means creating/editing the high-level `PLAN.MD` or detailed `{project-name}-notes/plans/{feature}-plan.md` files. Task creation is a separate process handled by interpreting the detailed feature PRDs using the `tasks/tasks.mdc` rule. Archiving plans is handled by the `tasks/memory.mdc` rule.
