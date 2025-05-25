@@ -92,38 +92,38 @@ For tasks that are particularly large or complex, they can be expanded into sub-
 
 **If the `tasks/expand.mdc` rule (or the user directly) recommends expanding a task, the following process is used to create the sub-tasks:**
 
-1.  **Receive Sub-Task Definitions:** The agent receives a list of proposed sub-tasks, typically including titles, descriptions, priorities, and their inter-dependencies, as well as the ID of the parent task (e.g., parent task ID `42`).
-2.  **Sub-Task Filename Convention:**
-    *   For each proposed sub-task, determine its filename using the format: `task{parent_id}.{sub_id}_descriptive_name.md`
-        *   `{parent_id}`: The numeric ID of the original parent task (e.g., `42`).
-        *   `{sub_id}`: A sequential integer for the sub-task (e.g., 1, 2, 3), unique *within the scope of that parent*.
-        *   Example: `task42.1_implement_user_model.md`, `task42.2_create_api_endpoints.md`.
-    *   To determine the next `{sub_id}` for a given `{parent_id}`:
-        1.  Use the file search tool with pattern `#task` in `{project-name}-notes/` to find all task files.
-        2.  Filter for files matching `task{parent_id}.*_*.md` (e.g., `task42.*_*.md`).
-        3.  Parse the `{sub_id}` from these filenames (the number between the first dot and the subsequent underscore).
-        4.  The next `{sub_id}` is the highest found + 1, or 1 if no relevant sub-task files exist for that parent.
-3.  **Create Sub-Task Files:**
-    *   For each defined sub-task:
-        *   Create the corresponding `.md` file in `{project-name}-notes/` using `edit_file`, ending with `#task` tag.
-        *   The YAML frontmatter `id` field **must be the full sub-task ID string**, e.g., `id: 42.1`.
-        *   Populate the YAML frontmatter (`title`, `status: pending`, `priority`, `feature` (this could be the parent task's feature or title, or a more specific sub-feature), `dependencies`, `created_at`).
-            *   Dependencies for sub-tasks can refer to other sub-tasks of the same parent (e.g., `42.2` depends on `42.1`) or external/top-level tasks (e.g., `15`).
-        *   Add the `## Description`, `## Details`, and `## Test Strategy` sections as provided or generated.
-4.  **Update Parent Task File:**
-    *   Modify the original parent task's file (e.g., `task42_implement_user_feature.md` in `{project-name}-notes/`) using `edit_file`:
-        *   Update its `## Description` to note that it has been expanded and now serves as a Parent Task or tracker.
-        *   In its `## Details` section, add a list like:
-            ```markdown
-            **Sub-tasks:**
-            - task42.1_implement_user_model.md
-            - task42.2_create_api_endpoints.md
-            ```
-        *   The parent task's `status` might remain `pending` or `inprogress`. Its completion is typically dependent on all its sub-tasks being `completed`.
-5.  **Update `TASKS.md` Master Checklist:**
-    *   Using `read_file` then `edit_file` on `TASKS.md` in `{project-name}-notes/`:
-        *   For each newly created sub-task, add a new entry following the standard format. The ID displayed should be the full sub-task ID (e.g., `ID 42.1`).
-        *   The entry for the parent task in `TASKS.md` should also be updated to reflect its new role as a Parent Task/tracker, potentially by modifying its description.
+1. **Receive Sub-Task Definitions:** The agent receives a list of proposed sub-tasks, typically including titles, descriptions, priorities, and their inter-dependencies, as well as the ID of the parent task (e.g., parent task ID `42`).
+2. **Sub-Task Filename Convention:**
+	- For each proposed sub-task, determine its filename using the format: `task{parent_id}.{sub_id}_descriptive_name.md`
+		- `{parent_id}`: The numeric ID of the original parent task (e.g., `42`).
+		- `{sub_id}`: A sequential integer for the sub-task (e.g., 1, 2, 3), unique *within the scope of that parent*.
+		- Example: `task42.1_implement_user_model.md`, `task42.2_create_api_endpoints.md`.
+	- To determine the next `{sub_id}` for a given `{parent_id}`:
+		1. Use the file search tool with pattern `#task` in `{project-name}-notes/` to find all task files.
+		2. Filter for files matching `task{parent_id}.*_*.md` (e.g., `task42.*_*.md`).
+		3. Parse the `{sub_id}` from these filenames (the number between the first dot and the subsequent underscore).
+		4. The next `{sub_id}` is the highest found + 1, or 1 if no relevant sub-task files exist for that parent.
+3. **Create Sub-Task Files:**
+	- For each defined sub-task:
+		- Create the corresponding `.md` file in `{project-name}-notes/` using `edit_file`, ending with `#task` tag.
+		- The YAML frontmatter `id` field **must be the full sub-task ID string**, e.g., `id: 42.1`.
+		- Populate the YAML frontmatter (`title`, `status: pending`, `priority`, `feature` (this could be the parent task's feature or title, or a more specific sub-feature), `dependencies`, `created_at`).
+			- Dependencies for sub-tasks can refer to other sub-tasks of the same parent (e.g., `42.2` depends on `42.1`) or external/top-level tasks (e.g., `15`).
+		- Add the `## Description`, `## Details`, and `## Test Strategy` sections as provided or generated.
+4. **Update Parent Task File:**
+	- Modify the original parent task's file (e.g., `task42_implement_user_feature.md` in `{project-name}-notes/`) using `edit_file`:
+		- Update its `## Description` to note that it has been expanded and now serves as a Parent Task or tracker.
+		- In its `## Details` section, add a list like:
+			```markdown
+			**Sub-tasks:**
+			- task42.1_implement_user_model.md
+			- task42.2_create_api_endpoints.md
+			```
+		- The parent task's `status` might remain `pending` or `inprogress`. Its completion is typically dependent on all its sub-tasks being `completed`.
+5. **Update `TASKS.md` Master Checklist:**
+	- Using `read_file` then `edit_file` on `TASKS.md` in `{project-name}-notes/`:
+		- For each newly created sub-task, add a new entry following the standard format. The ID displayed should be the full sub-task ID (e.g., `ID 42.1`).
+		- The entry for the parent task in `TASKS.md` should also be updated to reflect its new role as a Parent Task/tracker, potentially by modifying its description.
 
 **YAML `id` field for Sub-Tasks:**
 Crucially, the `id` field in the YAML frontmatter for a sub-task **must use the dot-notation string**, not just the sub-id number.
@@ -170,26 +170,26 @@ error_log: null            # Reason if status: failed
 
 When creating a new task, the agent must assign a `priority` in the YAML frontmatter. The available priorities are `critical`, `high`, `medium`, and `low`. To choose the correct priority, consider the following:
 
-*   **`critical`**:
-    *   The task is absolutely essential for the core functionality of the project or feature.
-    *   The project/feature cannot proceed or be considered complete without this task.
-    *   It might also be a task that, if not done immediately, blocks a large number of other `critical` or `high` priority tasks.
-*   **`high`**:
-    *   The task implements a key part of a feature or fixes an important bug.
-    *   It is a significant step towards a major goal.
-    *   It might block several other `medium` or `high` priority tasks.
-*   **`medium`** (Default):
-    *   This is for standard development tasks, regular feature work, or improvements that are valuable but not immediately blocking.
-    *   Use this as the default if the task doesn't clearly fit into `critical`, `high`, or `low`.
-*   **`low`**:
-    *   The task is a "nice-to-have," a minor improvement, a cosmetic fix, or can be deferred without significant impact.
-    *   It does not block any other tasks or only blocks other `low` priority tasks.
+- **`critical`**:
+	- The task is absolutely essential for the core functionality of the project or feature.
+	- The project/feature cannot proceed or be considered complete without this task.
+	- It might also be a task that, if not done immediately, blocks a large number of other `critical` or `high` priority tasks.
+- **`high`**:
+	- The task implements a key part of a feature or fixes an important bug.
+	- It is a significant step towards a major goal.
+	- It might block several other `medium` or `high` priority tasks.
+- **`medium`** (Default):
+	- This is for standard development tasks, regular feature work, or improvements that are valuable but not immediately blocking.
+	- Use this as the default if the task doesn't clearly fit into `critical`, `high`, or `low`.
+- **`low`**:
+	- The task is a "nice-to-have," a minor improvement, a cosmetic fix, or can be deferred without significant impact.
+	- It does not block any other tasks or only blocks other `low` priority tasks.
 
 **Process for deciding priority:**
 
-1.  **Evaluate Inherent Criticality:** How vital is this specific task to the overall user request or feature being built?
-2.  **Analyze Dependencies:** Does this task unblock other tasks? If so, what are the priorities of those dependent tasks? A task that unblocks `critical` or `high` priority work should have its priority elevated accordingly.
-3.  **Default to Medium:** If there's no strong reason to assign a different priority, `medium` is often appropriate.
+1. **Evaluate Inherent Criticality:** How vital is this specific task to the overall user request or feature being built?
+2. **Analyze Dependencies:** Does this task unblock other tasks? If so, what are the priorities of those dependent tasks? A task that unblocks `critical` or `high` priority work should have its priority elevated accordingly.
+3. **Default to Medium:** If there's no strong reason to assign a different priority, `medium` is often appropriate.
 
 ## Description
 
@@ -215,29 +215,29 @@ When breaking down a feature or user story into tasks, aim for a balance between
 
 **General Principles:**
 
-*   **Self-Contained:** Each task should ideally represent a logical step that can be implemented and potentially tested independently. For example, implementing the core logic of a job and its unit tests makes a good task.
-*   **Meaningful Progress:** Completing a task should represent clear progress towards the overall feature goal.
-*   **Avoid Micro-Tasks:** Don't break down single operations into multiple tiny tasks if they are always performed together (e.g., extracting data and storing it within the same job might be one task, not two or three).
+- **Self-Contained:** Each task should ideally represent a logical step that can be implemented and potentially tested independently. For example, implementing the core logic of a job and its unit tests makes a good task.
+- **Meaningful Progress:** Completing a task should represent clear progress towards the overall feature goal.
+- **Avoid Micro-Tasks:** Don't break down single operations into multiple tiny tasks if they are always performed together (e.g., extracting data and storing it within the same job might be one task, not two or three).
 
 **Recommended Workflow Structure:**
 
 Instead of breaking down every single implementation detail, consider structuring tasks around logical phases of development:
 
-1.  **Scaffolding Task:**
-    *   **Goal:** Create the necessary file structure and boilerplate code for the feature.
-    *   **Details:** This might involve creating new modules, classes, functions, or files (e.g., for commands, background jobs, data models, service utilities, tests) with basic structure (e.g., function signatures, class definitions) and dummy implementations according to the project's chosen language and framework.
+1. **Scaffolding Task:**
+	- **Goal:** Create the necessary file structure and boilerplate code for the feature.
+	- **Details:** This might involve creating new modules, classes, functions, or files (e.g., for commands, background jobs, data models, service utilities, tests) with basic structure (e.g., function signatures, class definitions) and dummy implementations according to the project's chosen language and framework.
 
-2.  **Core Logic Implementation Task(s):**
-    *   **Goal:** Implement the primary business logic of the feature.
-    *   **Details:** This involves writing the actual code within the scaffolded files (e.g., the logic inside a job's main execution function/method) and the corresponding unit tests.
+2. **Core Logic Implementation Task(s):**
+	- **Goal:** Implement the primary business logic of the feature.
+	- **Details:** This involves writing the actual code within the scaffolded files (e.g., the logic inside a job's main execution function/method) and the corresponding unit tests.
 
-3.  **Integration/Control Task(s):**
-    *   **Goal:** Implement how the core logic is triggered or integrated into the application.
-    *   **Details:** This might involve implementing a command-line interface, an API endpoint, a user interface action, or a service call that uses the core logic. Include relevant tests for this integration layer.
+3. **Integration/Control Task(s):**
+	- **Goal:** Implement how the core logic is triggered or integrated into the application.
+	- **Details:** This might involve implementing a command-line interface, an API endpoint, a user interface action, or a service call that uses the core logic. Include relevant tests for this integration layer.
 
-4.  **UI/Frontend Task(s) (If Applicable):**
-    *   **Goal:** Implement any necessary user interface elements.
-    *   **Details:** Create or modify user interface templates, components, or views relevant to the chosen UI framework/library.
+4. **UI/Frontend Task(s) (If Applicable):**
+	- **Goal:** Implement any necessary user interface elements.
+	- **Details:** Create or modify user interface templates, components, or views relevant to the chosen UI framework/library.
 
 This structure helps ensure each task is substantial enough to be meaningful while maintaining a logical flow for feature development.
 
@@ -255,16 +255,16 @@ This file provides a quick, human-readable overview of all active tasks (files w
 > {Description}
 ```
 
--   **`[ICON]`**:
-    -   `[ ]`: Pending
-    -   `[-]`: In Progress
-    -   `[x]`: Completed
-    -   `[!]`: Failed
--   **`{id}`**: The full task ID (e.g., `15` or `15.1`).
--   **`{STATUS_NOTE}`**:
-    -   `(Failed)`: If status is `failed`.
--   **`Dependencies`**: Line is omitted if the `dependencies` list in YAML is empty or null. IDs are full task IDs (e.g., `1`, `4.2`).
--   **`Description`**: Pulled from the `## Description` section of the task file.
+- **`[ICON]`**:
+	- `[ ]`: Pending
+	- `[-]`: In Progress
+	- `[x]`: Completed
+	- `[!]`: Failed
+- **`{id}`**: The full task ID (e.g., `15` or `15.1`).
+- **`{STATUS_NOTE}`**:
+	- `(Failed)`: If status is `failed`.
+- **`Dependencies`**: Line is omitted if the `dependencies` list in YAML is empty or null. IDs are full task IDs (e.g., `1`, `4.2`).
+- **`Description`**: Pulled from the `## Description` section of the task file.
 
 **Example `TASKS.md` Entry:**
 
@@ -303,19 +303,19 @@ graph TD
 
 **Key Agent Responsibilities:**
 
-1.  **Synchronization:** Keep `TASKS.md` perfectly aligned with the `status` fields in all active task files (those with `#task` but without `#memory`). Update `TASKS.md` *immediately* after updating a task file's YAML status.
-2.  **Dependency Check:** Before changing a task's status to `inprogress` (**after identifying it as pending in `TASKS.md`**), verify *each* ID listed in its `dependencies` corresponds to a task file with `status: completed` in its YAML. IDs can be numeric (e.g., `12`) or string (e.g., `12.1`). **If not met, the agent cannot start the task and must inform the user.**
-3.  **Status Updates:**
-    *   **Start:** Update task file YAML (`status: inprogress`, `assigned_agent`, `started_at`). Update `TASKS.md` line (`[-]`).
-    *   **Complete:** Update task file YAML (`status: completed`, `assigned_agent: null`, `completed_at`). Update `TASKS.md` line (`[x]`).
-    *   **Fail:** Update task file YAML (`status: failed`, `assigned_agent: null`, `completed_at`, `error_log`). Update `TASKS.md` line (`[!]`, add `(Failed)`).
-4.  **Archival:** When instructed by the user (interpreting intent like "archive completed tasks", "clean up finished tasks"), perform the archive steps:
-    *   Find completed/failed tasks by using file search tool for `#task` pattern, then reading their YAML status.
-    *   For each task to be archived:
-        *   Read its full content (YAML frontmatter and Description section) using `read_file` **(this is needed for logging to TASKS_LOG.md).**
-        *   Update the file by replacing `#task` with `#task #memory` at the end of the file using `edit_file`.
-    *   Log the summary (including description and dependencies) to `TASKS_LOG.md` by reading its current content, appending the new log entries, and using `edit_file` to write it back.
-    *   Remove corresponding entries from `TASKS.md` via `read_file` and `edit_file`.
+1. **Synchronization:** Keep `TASKS.md` perfectly aligned with the `status` fields in all active task files (those with `#task` but without `#memory`). Update `TASKS.md` *immediately* after updating a task file's YAML status.
+2. **Dependency Check:** Before changing a task's status to `inprogress` (**after identifying it as pending in `TASKS.md`**), verify *each* ID listed in its `dependencies` corresponds to a task file with `status: completed` in its YAML. IDs can be numeric (e.g., `12`) or string (e.g., `12.1`). **If not met, the agent cannot start the task and must inform the user.**
+3. **Status Updates:**
+	- **Start:** Update task file YAML (`status: inprogress`, `assigned_agent`, `started_at`). Update `TASKS.md` line (`[-]`).
+	- **Complete:** Update task file YAML (`status: completed`, `assigned_agent: null`, `completed_at`). Update `TASKS.md` line (`[x]`).
+	- **Fail:** Update task file YAML (`status: failed`, `assigned_agent: null`, `completed_at`, `error_log`). Update `TASKS.md` line (`[!]`, add `(Failed)`).
+4. **Archival:** When instructed by the user (interpreting intent like "archive completed tasks", "clean up finished tasks"), perform the archive steps:
+	- Find completed/failed tasks by using file search tool for `#task` pattern, then reading their YAML status.
+	- For each task to be archived:
+		- Read its full content (YAML frontmatter and Description section) using `read_file` **(this is needed for logging to TASKS_LOG.md).**
+		- Update the file by replacing `#task` with `#task #memory` at the end of the file using `edit_file`.
+	- Log the summary (including description and dependencies) to `TASKS_LOG.md` by reading its current content, appending the new log entries, and using `edit_file` to write it back.
+	- Remove corresponding entries from `TASKS.md` via `read_file` and `edit_file`.
 
 ## `TASKS_LOG.md` Format
 
@@ -333,44 +333,44 @@ When archiving, append an entry for each task to `TASKS_LOG.md` (which should ha
 
 The agent should interpret user requests and map them to the following actions. Use full task IDs (numeric for top-level, string like "7.1" for sub-tasks) when referring to tasks.
 
-*   **Show/List Tasks:** Read and display the current content of `TASKS.md`.
-*   **Create Task / Create Sub-Tasks:**
-    *   **If creating a regular top-level task or multiple tasks (from a plan/PRD):**
-        *   First, plan all tasks to be created, determining their IDs, titles, priorities, dependencies, and descriptions.
-        *   Update `TASKS.md` with entries for ALL planned tasks using `read_file` and `edit_file`.
-        *   Then, for each task now listed in `TASKS.md`, create the individual `task{id}_descriptive_name.md` file with `#task` tag using `edit_file`, populating YAML and markdown body.
-    *   **If creating sub-tasks for an existing `parent_id` (based on a recommendation from `@expand.mdc` or user):**
-        *   Follow the same process: plan all sub-tasks, update `TASKS.md` with all sub-task entries, then create each `task{parent_id}.{sub_id}_descriptive_name.md` file with `#task` tag.
-        *   Update the parent task file's description and details to list the new sub-tasks using `edit_file`.
-        *   Update the parent task's entry in `TASKS.md` if its description needs to change, using `read_file` and `edit_file`.
-*   **Start/Work on Next Task / Continue:**
-    *   Read `TASKS.md` and identify the **first** task listed with the `[ ]` (pending) icon.
-    *   If no pending tasks are found, inform the user.
-    *   If a pending task is found, proceed to check its dependencies (by reading the task file if needed).
-    *   If dependencies met: Update task file YAML (`status: inprogress`, etc.) and update the corresponding line in `TASKS.md` to `[-]`. Announce which task is being started.
-    *   If dependencies not met: Inform the user, stating which task is blocked and which dependencies are missing.
-*   **Start/Work on Specific Task {id}:**
-    *   Verify task {id} (e.g., `15` or `15.1`) exists in `TASKS.md` and its status is `[ ]` (pending). If not, inform the user.
-    *   Check dependencies for task {id}.
-    *   If met: Update task {id} YAML (`status: inprogress`, etc.) and update `TASKS.md`.
-    *   If not met: Inform the user that dependencies are missing.
-*   **Verify Task Completion (MANDATORY PRE-COMPLETION STEP):**
-    *   **ALWAYS** check if the task file (e.g., `task{id}_name.md`) contains a `## Test Strategy` section after completing the implementation work.
-    *   If a `## Test Strategy` section exists: **DO NOT** mark the task as complete yet. You **MUST** explicitly ask the user: "This task has a Test Strategy. Would you like to run the tests (preferably by triggering the dispatching command/action if applicable), or should I mark it as complete based on your verification?"
-    *   If no `## Test Strategy` section exists, or if the user confirms after being asked about the tests: Proceed to the "Complete Task {id}" step.
-*   **Complete Task {id}:**
-    *   **Cleanup:** Before marking as complete, review the code changes made for this task and remove any temporary logging or print statements (e.g., language-specific debug prints, verbose console logs) that were added for debugging or testing purposes. Only leave logs that are essential for production monitoring (e.g., errors, critical warnings).
-    *   **Update:** Update task {id} YAML (`status: completed`, `assigned_agent: null`, `completed_at`) and update the corresponding line in `TASKS.md` to `[x]`.
-*   **Fail Task {id} "{Reason}":** Update task {id} YAML (`status: failed`, `error_log`, etc.) and update `TASKS.md`.
-*   **Show Task {id} Details:** Read the full content (YAML and Markdown) of `task{id}_name.md` by first using file search for `#task` files and finding the matching ID.
-*   **Archive Tasks:**
-    *   Identify tasks with `status: completed` or `status: failed` in their YAML by using file search for `#task` pattern (excluding those with `#memory`).
-    *   For each identified task file:
-        * Read its YAML frontmatter (to get Title, Status, Dependencies) and its Markdown body (to get the Description) using `read_file`.
-    *   Archive identified files:
-        *   Update each file by replacing `#task` with `#task #memory` at the end using `edit_file`.
-    *   Append entries to `TASKS_LOG.md` using the format specified above via `read_file` and `edit_file`.
-    *   Remove corresponding entries from `TASKS.md` via `read_file` and `edit_file`.
+- **Show/List Tasks:** Read and display the current content of `TASKS.md`.
+- **Create Task / Create Sub-Tasks:**
+	- **If creating a regular top-level task or multiple tasks (from a plan/PRD):**
+		- First, plan all tasks to be created, determining their IDs, titles, priorities, dependencies, and descriptions.
+		- Update `TASKS.md` with entries for ALL planned tasks using `read_file` and `edit_file`.
+		- Then, for each task now listed in `TASKS.md`, create the individual `task{id}_descriptive_name.md` file with `#task` tag using `edit_file`, populating YAML and markdown body.
+	- **If creating sub-tasks for an existing `parent_id` (based on a recommendation from `@expand.mdc` or user):**
+		- Follow the same process: plan all sub-tasks, update `TASKS.md` with all sub-task entries, then create each `task{parent_id}.{sub_id}_descriptive_name.md` file with `#task` tag.
+		- Update the parent task file's description and details to list the new sub-tasks using `edit_file`.
+		- Update the parent task's entry in `TASKS.md` if its description needs to change, using `read_file` and `edit_file`.
+- **Start/Work on Next Task / Continue:**
+	- Read `TASKS.md` and identify the **first** task listed with the `[ ]` (pending) icon.
+	- If no pending tasks are found, inform the user.
+	- If a pending task is found, proceed to check its dependencies (by reading the task file if needed).
+	- If dependencies met: Update task file YAML (`status: inprogress`, etc.) and update the corresponding line in `TASKS.md` to `[-]`. Announce which task is being started.
+	- If dependencies not met: Inform the user, stating which task is blocked and which dependencies are missing.
+- **Start/Work on Specific Task {id}:**
+	- Verify task {id} (e.g., `15` or `15.1`) exists in `TASKS.md` and its status is `[ ]` (pending). If not, inform the user.
+	- Check dependencies for task {id}.
+	- If met: Update task {id} YAML (`status: inprogress`, etc.) and update `TASKS.md`.
+	- If not met: Inform the user that dependencies are missing.
+- **Verify Task Completion (MANDATORY PRE-COMPLETION STEP):**
+	- **ALWAYS** check if the task file (e.g., `task{id}_name.md`) contains a `## Test Strategy` section after completing the implementation work.
+	- If a `## Test Strategy` section exists: **DO NOT** mark the task as complete yet. You **MUST** explicitly ask the user: "This task has a Test Strategy. Would you like to run the tests (preferably by triggering the dispatching command/action if applicable), or should I mark it as complete based on your verification?"
+	- If no `## Test Strategy` section exists, or if the user confirms after being asked about the tests: Proceed to the "Complete Task {id}" step.
+- **Complete Task {id}:**
+	- **Cleanup:** Before marking as complete, review the code changes made for this task and remove any temporary logging or print statements (e.g., language-specific debug prints, verbose console logs) that were added for debugging or testing purposes. Only leave logs that are essential for production monitoring (e.g., errors, critical warnings).
+	- **Update:** Update task {id} YAML (`status: completed`, `assigned_agent: null`, `completed_at`) and update the corresponding line in `TASKS.md` to `[x]`.
+- **Fail Task {id} "{Reason}":** Update task {id} YAML (`status: failed`, `error_log`, etc.) and update `TASKS.md`.
+- **Show Task {id} Details:** Read the full content (YAML and Markdown) of `task{id}_name.md` by first using file search for `#task` files and finding the matching ID.
+- **Archive Tasks:**
+	- Identify tasks with `status: completed` or `status: failed` in their YAML by using file search for `#task` pattern (excluding those with `#memory`).
+	- For each identified task file:
+		- Read its YAML frontmatter (to get Title, Status, Dependencies) and its Markdown body (to get the Description) using `read_file`.
+	- Archive identified files:
+		- Update each file by replacing `#task` with `#task #memory` at the end using `edit_file`.
+	- Append entries to `TASKS_LOG.md` using the format specified above via `read_file` and `edit_file`.
+	- Remove corresponding entries from `TASKS.md` via `read_file` and `edit_file`.
 
 ## Utilities
 
