@@ -9,24 +9,24 @@ Whenever you use this rule, start your message with the following:
 
 "Accessing Task Magic system overview..."
 
-The Task Magic system is a file-based project management and AI agent operational framework designed to plan features, manage development tasks, and maintain a memory of past work. It consists of three main components, each governed by its own detailed rule file:
+The Task Magic system is a file-based project management and AI agent operational framework designed to plan features, manage development tasks, and maintain a memory of past work. It uses a flat file structure with hashtag-based organization, consisting of three main components, each governed by its own detailed rule file:
 
-1.  **Plans (`@plans.mdc`)**:
-    *   **Purpose**: Defines how Product Requirements Documents (PRDs) are created and structured for the overall project and specific features.
-    *   **Location**: PRDs are stored in `{project-name}-notes/plans/` (in the main project root).
-    *   **Key File**: A global `PLAN.md` is mandatory in `{project-name}-notes/plans/`.
-    *   **Details**: For plan creation, fully review [tasks/plans.mdc](mdc:tasks/plans.mdc)
+1. **Plans (`@plans.mdc`)**:
+	- **Purpose**: Defines how Product Requirements Documents (PRDs) are created and structured for the overall project and specific features.
+	- **Identification**: PRDs are identified by the `#plan` hashtag at the end of the file.
+	- **Key File**: A global `PLAN.md` with `#plan #index` tags is mandatory.
+	- **Details**: For plan creation, fully review [tasks/plans.mdc](mdc:tasks/plans.mdc)
 
-2.  **Tasks (`@tasks.mdc`)**:
-    *   **Purpose**: Governs the creation, management, and lifecycle of individual development tasks.
-    *   **Active Tasks**: All active tasks reside in `{project-name}-notes/tasks/` (in the main project root) as `task{id}_name.md` files.
-    *   **Master View**: A master checklist, `{project-name}-notes/TASKS.md` (in the main project root), mirrors the status of tasks in the `{project-name}-notes/tasks/` directory and must be kept synchronized.
-    *   **Details**: For task creation, fully review [tasks/tasks.mdc](mdc:tasks/tasks.mdc)
+2. **Tasks (`@tasks.mdc`)**:
+	- **Purpose**: Governs the creation, management, and lifecycle of individual development tasks.
+	- **Active Tasks**: All active tasks are identified by the `#task` hashtag (without `#memory`) as `task{id}_name.md` files.
+	- **Master View**: A master checklist, `TASKS.md` with `#task #index` tags, mirrors the status of all active tasks and must be kept synchronized.
+	- **Details**: For task creation, fully review [tasks/tasks.mdc](mdc:tasks/tasks.mdc)
 
-3.  **Memory (`@memory.mdc`)**:
-    *   **Purpose**: Archives completed and failed tasks to provide historical context.
-    *   **Location**: Archived task files are stored in `{project-name}-notes/memory/tasks/` (in the main project root).
-    *   **Log File**: A chronological log of archived tasks is maintained in `{project-name}-notes/memory/TASKS_LOG.md` (in the main project root).
-    *   **Details**: For storing to memory, full review [tasks/memory.mdc](mdc:tasks/memory.mdc)
+3. **Memory (`@memory.mdc`)**:
+	- **Purpose**: Archives completed and failed tasks to provide historical context.
+	- **Identification**: Archived files are identified by the `#memory` hashtag in addition to their type tag (e.g., `#task #memory`).
+	- **Log Files**: Chronological logs are maintained in `TASKS_LOG.md` (`#task #log #memory`) and `PLANS_LOG.md` (`#plan #log #memory`).
+	- **Details**: For storing to memory, full review [tasks/memory.mdc](mdc:tasks/memory.mdc)
 
-This interconnected system allows for structured project development, from high-level planning to task execution and historical review, primarily managed through Markdown files and defined agent responsibilities.
+This interconnected system allows for structured project development, from high-level planning to task execution and historical review, primarily managed through Markdown files with hashtag-based categorization and defined agent responsibilities.
