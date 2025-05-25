@@ -17,27 +17,29 @@ Your task is to create a comprehensive product requirements document (PRD) for t
 
 ## Core Concepts
 
-1.  **Planning Folder:** The `{project-name}-notes/plans/` directory (in the main project root) holds all PRD files.
-2.  **Global Plan (`PLAN.MD`):** A single, mandatory `PLAN.MD` file must exist directly within `{project-name}-notes/plans/` (in the main project root). Its primary role is to serve as a **concise high-level overview of the overall project and an index to detailed feature-specific PRDs**. It should define the project's vision and core goals but **must not become a lengthy PRD itself**. It provides essential context by linking to comprehensive feature plans, preferably using wikilinks (e.g., `[[plans/user-authentication-plan]]`).
-3.  **Feature Plans:** Specific features **must** have their detailed PRDs located within the `{project-name}-notes/plans/` directory (in the main project root, e.g., `main-repo/{project-name}-notes/plans/{feature}-plan.md`). These documents contain the comprehensive planning, requirements, user stories, and technical considerations for individual features. When referencing other plans, tasks, or relevant documents within the content of a feature plan, use wikilink syntax with paths from the project root (e.g., `[[tasks/task1_setup_database]]` or `[[memory/tasks/task5_old_approach|Old Approach Documentation]]`).
-4.  **Purpose:** PRDs serve as the detailed specification for specific features (`{project-name}-notes/plans/{feature}-plan.md`). The global `PLAN.MD` (in `{project-name}-notes/plans/`) supports this by providing the overarching project summary and acting as a central hub that **links to these detailed feature PRDs**. Task breakdown (using the `tasks.mdc` rule system) is based on the detailed content within feature plans.
-5.  **Plan Lifecycle:** Active plans reside in `{project-name}-notes/plans/` (main project root). Completed, deprecated, or superseded plans can be archived to `{project-name}-notes/memory/plans/` (main project root) for historical reference, as detailed in the `tasks/memory.mdc` rule.
+1. **Flat File Structure:** All PRD files reside in the `{project-name}-notes/` directory (in the main project root). Files are categorized using hashtags at the end of each file.
+2. **Global Plan (`PLAN.MD`):** A single, mandatory `PLAN.MD` file must exist with `#plan #index` tags. Its primary role is to serve as a **concise high-level overview of the overall project and an index to detailed feature-specific PRDs**. It should define the project's vision and core goals but **must not become a lengthy PRD itself**. It provides essential context by linking to comprehensive feature plans, preferably using wikilinks (e.g., `[[user-authentication-plan]]`).
+3. **Feature Plans:** Specific features **must** have their detailed PRDs as `{feature}-plan.md` files with `#plan` tag. These documents contain the comprehensive planning, requirements, user stories, and technical considerations for individual features. When referencing other plans, tasks, or relevant documents within the content of a feature plan, use wikilink syntax without paths (e.g., `[[task1_setup_database]]` or `[[task5_old_approach|Old Approach Documentation]]`).
+4. **Purpose:** PRDs serve as the detailed specification for specific features (`{feature}-plan.md`). The global `PLAN.MD` supports this by providing the overarching project summary and acting as a central hub that **links to these detailed feature PRDs**. Task breakdown (using the `tasks.mdc` rule system) is based on the detailed content within feature plans.
+5. **Plan Lifecycle:** Active plans have `#plan` tag. Completed, deprecated, or superseded plans can be archived by adding the `#memory` tag, as detailed in the `tasks/memory.mdc` rule.
 
-## Directory Structure
+## File Structure
 
 ```
 (main project root)/
   workspace/ (codebase)
-  {project-name}-notes/
-    plans/          # Parent directory for all PRDs
-      PLAN.md       # Mandatory: Global project PRD
-      {feature}-plan.md # Example feature PRD
-    tasks/          # (For reference - Tasks are generated based on PRDs, in main project root/{project-name}-notes/tasks/)
-    memory/         # (For reference - Task and Plan archive, in main project root/{project-name}-notes/memory/)
-    TASKS.md        # (For reference - Master task checklist, in main project root/{project-name}-notes/TASKS.md)
+  {project-name}-notes/           # Flat structure - all files here
+    PLAN.md                       # Global plan (#plan #index)
+    user-auth-plan.md             # Feature plan (#plan)
+    api-design-plan.md            # Another feature plan (#plan)
+    old-feature-plan.md           # Archived plan (#plan #memory)
+    TASKS.md                      # Master checklist (#task #index)
+    task1_setup.md                # Task files (#task)
+    TASKS_LOG.md                  # Task archive log (#task #log #memory)
+    PLANS_LOG.md                  # Plan archive log (#plan #log #memory)
 ```
 
-**Note:** Before creating directories like `{project-name}-notes/plans/` (in the main project root), the agent should first check if they exist using `list_dir` on the parent directory (`{project-name}-notes/` for `plans/`) or `file_search` for the specific directory path. If a directory does not exist, it can be implicitly created when using `edit_file` to place a file within that path, as `edit_file` will create necessary parent directories. The agent should also ensure `{project-name}-notes/plans/PLAN.md` exists (checking with `file_search` and creating with `edit_file` if necessary with a basic structure) before generating feature plans.
+**Note:** The agent should ensure `PLAN.md` exists (checking with `file_search` and creating with `edit_file` if necessary with a basic structure and `#plan #index` tags) before generating feature plans.
 
 ## PRD File Format
 
@@ -45,8 +47,8 @@ PRDs are Markdown files (`.md`) following a structured template.
 
 **Filename Convention:**
 
--   **Global:** `PLAN.md` (Mandatory).
--   **Feature:** `{feature}-plan.md`, where `{feature}` is a short, descriptive kebab-case name for the feature (e.g., `user-authentication-plan.md`).
+- **Global:** `PLAN.md` (Mandatory).
+- **Feature:** `{feature}-plan.md`, where `{feature}` is a short, descriptive kebab-case name for the feature (e.g., `user-authentication-plan.md`).
 
 **PRD Template (Markdown):**
 
@@ -59,8 +61,8 @@ Agents should generate PRDs following this structure, filling in details based o
 
 ### 1.1 Document title and version
 
--   PRD: {Project/Feature Title}
--   Version: 1.0
+- PRD: {Project/Feature Title}
+- Version: 1.0
 
 ### 1.2 Product summary
 
@@ -70,60 +72,60 @@ Agents should generate PRDs following this structure, filling in details based o
 
 ### 2.1 Business goals
 
--   (Bullet list of business objectives)
+- (Bullet list of business objectives)
 
 ### 2.2 User goals
 
--   (Bullet list of what users aim to achieve)
+- (Bullet list of what users aim to achieve)
 
 ### 2.3 Non-goals
 
--   (Bullet list of explicitly out-of-scope items)
+- (Bullet list of explicitly out-of-scope items)
 
 ## 3. User personas
 
 ### 3.1 Key user types
 
--   (Bullet list of primary user categories)
+- (Bullet list of primary user categories)
 
 ### 3.2 Basic persona details
 
--   **{Persona Name 1}**: {Brief description}
--   **{Persona Name 2}**: {Brief description}
+- **{Persona Name 1}**: {Brief description}
+- **{Persona Name 2}**: {Brief description}
 
 ### 3.3 Role-based access
 
--   **{Role Name 1}**: {Description of permissions/access}
--   **{Role Name 2}**: {Description of permissions/access}
+- **{Role Name 1}**: {Description of permissions/access}
+- **{Role Name 2}**: {Description of permissions/access}
 
 ## 4. Functional requirements
 
--   **{Feature Name 1}** (Priority: {High/Medium/Low})
-    -   {Requirement 1.1}
-    -   {Requirement 1.2}
--   **{Feature Name 2}** (Priority: {High/Medium/Low})
-    -   {Requirement 2.1}
+- **{Feature Name 1}** (Priority: {High/Medium/Low})
+	- {Requirement 1.1}
+	- {Requirement 1.2}
+- **{Feature Name 2}** (Priority: {High/Medium/Low})
+	- {Requirement 2.1}
 
 ## 5. User experience
 
 ### 5.1 Entry points & first-time user flow
 
--   (How users access this feature/product initially)
+- (How users access this feature/product initially)
 
 ### 5.2 Core experience
 
--   **{Step 1}**: {Explanation of the step}
-    -   {Detail on making it a good experience}
--   **{Step 2}**: {Explanation of the step}
-    -   {Detail on making it a good experience}
+- **{Step 1}**: {Explanation of the step}
+	- {Detail on making it a good experience}
+- **{Step 2}**: {Explanation of the step}
+	- {Detail on making it a good experience}
 
 ### 5.3 Advanced features & edge cases
 
--   (Bullet list of less common scenarios or advanced capabilities)
+- (Bullet list of less common scenarios or advanced capabilities)
 
 ### 5.4 UI/UX highlights
 
--   (Key design principles or user interface elements)
+- (Key design principles or user interface elements)
 
 ## 6. Narrative
 
@@ -133,50 +135,50 @@ Agents should generate PRDs following this structure, filling in details based o
 
 ### 7.1 User-centric metrics
 
--   (e.g., Task completion rate, user satisfaction)
+- (e.g., Task completion rate, user satisfaction)
 
 ### 7.2 Business metrics
 
--   (e.g., Conversion rate, revenue impact)
+- (e.g., Conversion rate, revenue impact)
 
 ### 7.3 Technical metrics
 
--   (e.g., Page load time, error rate)
+- (e.g., Page load time, error rate)
 
 ## 8. Technical considerations
 
 ### 8.1 Integration points
 
--   (Interaction with other systems/services)
+- (Interaction with other systems/services)
 
 ### 8.2 Data storage & privacy
 
--   (How data is handled, GDPR/CCPA compliance etc.)
+- (How data is handled, GDPR/CCPA compliance etc.)
 
 ### 8.3 Scalability & performance
 
--   (Anticipated load, performance targets)
+- (Anticipated load, performance targets)
 
 ### 8.4 Potential challenges
 
--   (Risks or technical hurdles)
+- (Risks or technical hurdles)
 
 ## 9. Milestones & sequencing
 
 ### 9.1 Project estimate
 
--   {Small/Medium/Large}: {Rough time estimate, e.g., 2-4 weeks}
+- {Small/Medium/Large}: {Rough time estimate, e.g., 2-4 weeks}
 
 ### 9.2 Team size & composition
 
--   {e.g., Small Team: 1-2 people (1 PM, 1 Eng)}
+- {e.g., Small Team: 1-2 people (1 PM, 1 Eng)}
 
 ### 9.3 Suggested phases
 
--   **{Phase 1}**: {Description} ({Time estimate})
-    -   Key deliverables: {List}
--   **{Phase 2}**: {Description} ({Time estimate})
-    -   Key deliverables: {List}
+- **{Phase 1}**: {Description} ({Time estimate})
+	- Key deliverables: {List}
+- **{Phase 2}**: {Description} ({Time estimate})
+	- Key deliverables: {List}
 
 ## 10. User stories
 
@@ -184,28 +186,29 @@ Agents should generate PRDs following this structure, filling in details based o
 
 ### 10.1 {User Story Title 1}
 
--   **ID**: US-001
--   **Description**: As a {persona}, I want to {action} so that {benefit}.
--   **Acceptance Criteria**:
-    -   {Criterion 1.1}
-    -   {Criterion 1.2}
+- **ID**: US-001
+- **Description**: As a {persona}, I want to {action} so that {benefit}.
+- **Acceptance Criteria**:
+	- {Criterion 1.1}
+	- {Criterion 1.2}
 
 ### 10.2 {User Story Title 2}
 
--   **ID**: US-002
--   **Description**: As a {persona}, I want to {action} so that {benefit}.
--   **Acceptance Criteria**:
-    -   {Criterion 2.1}
-    -   {Criterion 2.2}
+- **ID**: US-002
+- **Description**: As a {persona}, I want to {action} so that {benefit}.
+- **Acceptance Criteria**:
+	- {Criterion 2.1}
+	- {Criterion 2.2}
 
+#plan
 ```
 
 ## Agent Responsibilities
 
-1.  **Ensure Global Plan Exists:** Before creating feature plans, verify `{project-name}-notes/plans/PLAN.MD` (in main project root) exists. If not, inform the user and offer to create a basic structure for it, emphasizing its role as a **concise project summary and an index to detailed feature plans** (linked via wikilinks, e.g., `[[plans/some-feature-plan]]`), not a comprehensive PRD itself.
-2.  **Determine Scope:** Clarify if the request is to update the global `PLAN.MD` (which should generally involve refining the overall project vision, updating core goals, or adding/modifying wikilinks like `[[plans/another-feature-plan]]` to feature PRDs) or to create/update a **detailed feature-specific plan** in `{project-name}-notes/plans/{feature}-plan.md` (in main project root). Avoid adding extensive feature details directly into `PLAN.MD`.
-3.  **Filename:** Use the correct filename convention. Create directories (relative to main project root, inside `{project-name}-notes/`) if they don't exist.
-4.  **Use Template:** Generate the PRD content strictly following the Markdown template structure provided above.
-5.  **Fill Content:** Populate the sections based on the user's request, project context (especially `{project-name}-notes/plans/PLAN.md`), and best practices for PRD writing.
-6.  **Completeness:** Ensure all necessary user stories (primary, alternative, edge cases, security) are included with clear acceptance criteria.
-7.  **Focus:** The agent's role is *only* to generate or update PRD Markdown files in the active planning directory (`{project-name}-notes/plans/` in the main project root). This means creating/editing the high-level `PLAN.MD` or detailed `{project-name}-notes/plans/{feature}-plan.md` files. Task creation is a separate process handled by interpreting the detailed feature PRDs using the `tasks/tasks.mdc` rule. Archiving plans is handled by the `tasks/memory.mdc` rule.
+1. **Ensure Global Plan Exists:** Before creating feature plans, verify `PLAN.MD` exists by using file search. If not, inform the user and offer to create a basic structure for it with `#plan #index` tags, emphasizing its role as a **concise project summary and an index to detailed feature plans** (linked via wikilinks, e.g., `[[some-feature-plan]]`), not a comprehensive PRD itself.
+2. **Determine Scope:** Clarify if the request is to update the global `PLAN.MD` (which should generally involve refining the overall project vision, updating core goals, or adding/modifying wikilinks like `[[another-feature-plan]]` to feature PRDs) or to create/update a **detailed feature-specific plan** as `{feature}-plan.md`. Avoid adding extensive feature details directly into `PLAN.MD`.
+3. **Filename:** Use the correct filename convention in the flat structure.
+4. **Use Template:** Generate the PRD content strictly following the Markdown template structure provided above, ensuring it ends with the appropriate hashtag.
+5. **Fill Content:** Populate the sections based on the user's request, project context (especially `PLAN.md`), and best practices for PRD writing.
+6. **Completeness:** Ensure all necessary user stories (primary, alternative, edge cases, security) are included with clear acceptance criteria.
+7. **Focus:** The agent's role is *only* to generate or update PRD Markdown files with `#plan` tags (or `#plan #index` for PLAN.MD). Task creation is a separate process handled by interpreting the detailed feature PRDs using the `tasks/tasks.mdc` rule. Archiving plans is handled by the `tasks/memory.mdc` rule.
